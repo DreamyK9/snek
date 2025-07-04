@@ -2,15 +2,27 @@
 # Example file showing a circle moving on screen
 import pygame
 
+class Player:
+    def __init__(self):
+        self.size = (50, 50)
+        self.direction = pygame.Vector2(1, 0)
+        self.speed = 5
+        self.pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+        self.sprite = pygame.Rect(self.pos, self.size)
+
+    def update(self):
+        self.sprite.update(self.pos, self.size)
+
+    def draw(self):
+        pygame.draw.rect(screen, "green", self.sprite) 
+
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 dt = 0
-
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-player_character = pygame.Rect(player_pos, (50, 50))
+player = Player()
 
 while running:
     # poll for events
@@ -22,18 +34,21 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("grey25")
 
-    player_character.update(player_pos, (50, 50))
-    pygame.draw.rect(screen, "green", player_character)
+    player.update()
+    player.draw()
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_pos.y -= 300 * dt
+        player.direction.update(0, -1)
     if keys[pygame.K_s]:
-        player_pos.y += 300 * dt
+        player.direction.update(0, 1)
     if keys[pygame.K_a]:
-        player_pos.x -= 300 * dt
+        player.direction.update(-1, 0)
     if keys[pygame.K_d]:
-        player_pos.x += 300 * dt
+        player.direction.update(1, 0)
+
+    # move character
+    player.pos.update(player.pos + player.speed * player.direction)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
