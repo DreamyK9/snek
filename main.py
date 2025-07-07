@@ -2,6 +2,7 @@
 # Example file showing a circle moving on screen
 import pygame
 
+
 class Player:
     def __init__(self):
         self.size = (50, 50)
@@ -14,7 +15,8 @@ class Player:
         self.sprite.update(self.pos, self.size)
 
     def draw(self):
-        pygame.draw.rect(screen, "green", self.sprite) 
+        pygame.draw.rect(screen, "green", self.sprite)
+
 
 # pygame setup
 pygame.init()
